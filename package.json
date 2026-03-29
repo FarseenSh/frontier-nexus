@@ -1,0 +1,13 @@
+{
+  "name": "frontier-nexus",
+  "version": "1.0.0",
+  "description": "Decentralized trade network + galaxy intelligence platform for EVE Frontier",
+  "private": true,
+  "scripts": {
+    "dev": "cd dashboard && pnpm dev",
+    "build": "cd dashboard && pnpm build",
+    "lint": "cd dashboard && pnpm lint"
+  },
+  "keywords": ["eve-frontier", "sui", "hackathon", "blockchain", "gaming"],
+  "license": "MIT"
+}
