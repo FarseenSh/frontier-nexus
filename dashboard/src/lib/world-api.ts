@@ -8,14 +8,13 @@ import type {
   PaginatedResponse,
 } from "./types";
 
-const BASE_URL = import.meta.env.DEV ? "/api" : WORLD_API_BASE;
-
 async function fetchAPI<T>(
   path: string,
   params?: Record<string, string | number>,
 ): Promise<T> {
-  const url = new URL(path, window.location.origin);
-  url.pathname = `${BASE_URL}${path}`;
+  const base = import.meta.env.DEV ? "" : WORLD_API_BASE;
+  const prefix = import.meta.env.DEV ? "/api" : "";
+  const url = new URL(`${prefix}${path}`, base || window.location.origin);
   if (params) {
     Object.entries(params).forEach(([k, v]) =>
       url.searchParams.set(k, String(v)),
