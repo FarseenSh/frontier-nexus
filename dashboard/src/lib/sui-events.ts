@@ -12,7 +12,7 @@ export async function queryEvents(
       jsonrpc: "2.0",
       id: 1,
       method: "suix_queryEvents",
-      params: [{ MoveEventType: eventType }, null, limit, false],
+      params: [{ MoveEventType: eventType }, null, limit, true],
     }),
   });
 

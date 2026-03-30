@@ -24,9 +24,9 @@ export const SystemPanel = ({ system, onClose }: SystemPanelProps) => {
             <h3 className="font-orbitron text-xl text-cyan">{system.name}</h3>
             <button
               onClick={onClose}
-              className="text-muted hover:text-primary transition-colors p-1"
+              className="text-gray-400 hover:text-white transition-colors p-1 rounded hover:bg-white/10"
             >
-              <X size={18} />
+              <X size={20} />
             </button>
           </div>
 

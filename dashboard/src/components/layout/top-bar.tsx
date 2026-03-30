@@ -1,7 +1,6 @@
 import { useLocation } from "react-router-dom";
-import { Search, Menu, Wallet } from "lucide-react";
-import { useCurrentAccount } from "@mysten/dapp-kit-react";
-import { PulsingDot } from "../activity/pulsing-dot";
+import { Search, Menu } from "lucide-react";
+import { ConnectButton } from "@mysten/dapp-kit-react/ui";
 
 const PAGE_TITLES: Record<string, string> = {
   "/map": "Galaxy Map",
@@ -20,8 +19,6 @@ interface TopBarProps {
 export const TopBar = ({ onMenuClick, onSearchClick }: TopBarProps) => {
   const location = useLocation();
   const title = PAGE_TITLES[location.pathname] ?? "Frontier Nexus";
-  const account = useCurrentAccount();
-
   return (
     <header className="fixed top-0 left-0 md:left-16 lg:left-60 right-0 h-14 bg-panel/80 backdrop-blur border-b border-cyan/10 flex items-center justify-between px-4 lg:px-6 z-10 transition-all duration-200">
       <div className="flex items-center gap-3">
@@ -49,20 +46,8 @@ export const TopBar = ({ onMenuClick, onSearchClick }: TopBarProps) => {
           </kbd>
         </button>
 
-        {/* Wallet */}
-        {account ? (
-          <div className="flex items-center gap-2 px-3 py-1.5 border border-success/30 rounded">
-            <PulsingDot color="bg-success" />
-            <span className="font-jetbrains text-xs text-primary">
-              {account.address.slice(0, 6)}...{account.address.slice(-4)}
-            </span>
-          </div>
-        ) : (
-          <button className="flex items-center gap-2 px-3 lg:px-4 py-1.5 border border-cyan/30 rounded text-cyan text-xs font-outfit hover:bg-cyan/10 transition-colors">
-            <Wallet size={14} />
-            <span className="hidden sm:inline">Connect</span>
-          </button>
-        )}
+        {/* Wallet — ConnectButton handles both connect + disconnect */}
+        <ConnectButton />
       </div>
     </header>
   );

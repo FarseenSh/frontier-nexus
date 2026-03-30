@@ -93,26 +93,31 @@ export default function GalaxyPage() {
         visible={routeMode}
       />
 
-      {/* Map controls — top-left */}
-      <div className="absolute top-3 left-3 flex flex-col gap-2 z-10">
+      {/* Map controls — top-left, below header */}
+      <div className="absolute top-14 left-3 flex flex-col gap-2 z-10">
         {/* Route toggle */}
         <button
           onClick={handleRouteToggle}
           className={cn(
-            "flex items-center gap-2 bg-void/70 px-3 py-1.5 rounded font-jetbrains text-[10px] transition-colors",
+            "flex items-center gap-2 backdrop-blur-md px-4 py-2 rounded-lg font-jetbrains text-xs tracking-wide transition-all border",
             routeMode
-              ? "text-cyan border border-cyan/30 bg-cyan/10"
-              : "text-muted hover:text-cyan",
+              ? "text-cyan border-cyan/50 bg-cyan/15 shadow-[0_0_12px_rgba(0,229,255,0.2)]"
+              : "text-gray-300 border-white/10 bg-void/80 hover:text-cyan hover:border-cyan/30",
           )}
         >
-          <RouteIcon size={12} />
+          <RouteIcon size={14} />
           {routeMode ? "Exit Route" : "Plan Route"}
         </button>
 
         {/* Activity toggle */}
         <button
           onClick={() => setShowActivity(!showActivity)}
-          className="bg-void/70 px-3 py-1.5 rounded font-jetbrains text-[10px] text-muted hover:text-cyan transition-colors"
+          className={cn(
+            "flex items-center gap-2 backdrop-blur-md px-4 py-2 rounded-lg font-jetbrains text-xs tracking-wide transition-all border",
+            showActivity
+              ? "text-cyan border-cyan/50 bg-cyan/15 shadow-[0_0_12px_rgba(0,229,255,0.2)]"
+              : "text-gray-300 border-white/10 bg-void/80 hover:text-cyan hover:border-cyan/30",
+          )}
         >
           {showActivity ? "Hide Activity" : "Show Activity"}
         </button>
@@ -120,7 +125,7 @@ export default function GalaxyPage() {
 
       {/* Activity overlay */}
       {showActivity && (
-        <div className="absolute top-24 left-3 w-64 bg-void/80 backdrop-blur-md rounded-lg border border-cyan/10 p-3 z-10">
+        <div className="absolute top-36 left-3 w-64 bg-void/80 backdrop-blur-md rounded-lg border border-cyan/10 p-3 z-10">
           <ActivityOverlay />
         </div>
       )}
