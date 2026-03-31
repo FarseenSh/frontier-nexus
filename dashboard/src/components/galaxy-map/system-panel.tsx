@@ -1,4 +1,5 @@
-import { X, ExternalLink } from "lucide-react";
+import { useState } from "react";
+import { X, ExternalLink, Copy, Check } from "lucide-react";
 import type { NormalizedSystem } from "../../lib/types";
 import { useConstellation } from "../../hooks/use-world-api";
 import { cn } from "../../lib/cn";
@@ -10,6 +11,16 @@ interface SystemPanelProps {
 
 export const SystemPanel = ({ system, onClose }: SystemPanelProps) => {
   const { data: constellation } = useConstellation(system?.constellationId);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopyLink = () => {
+    if (!system) return;
+    const url = `${window.location.origin}/map?system=${system.id}`;
+    navigator.clipboard.writeText(url).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }).catch(() => {});
+  };
 
   return (
     <div
@@ -74,15 +85,24 @@ export const SystemPanel = ({ system, onClose }: SystemPanelProps) => {
             </div>
           </div>
 
-          <a
-            href={`https://suiscan.xyz/testnet/object/${system.id}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-cyan/60 hover:text-cyan text-xs transition-colors"
-          >
-            <ExternalLink size={12} />
-            View on Explorer
-          </a>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={handleCopyLink}
+              className="flex items-center gap-2 text-cyan/60 hover:text-cyan text-xs transition-colors"
+            >
+              {copied ? <Check size={12} /> : <Copy size={12} />}
+              {copied ? "Copied!" : "Copy Link"}
+            </button>
+            <a
+              href={`https://suiscan.xyz/testnet/object/${system.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-cyan/60 hover:text-cyan text-xs transition-colors"
+            >
+              <ExternalLink size={12} />
+              View on Explorer
+            </a>
+          </div>
         </div>
       )}
     </div>

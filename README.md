@@ -115,6 +115,29 @@ The Trade Post SSU extension is deployed on Sui testnet:
 
 **Contract functions:** `authorize_trade_post` · `create_listing` · `update_listing` · `remove_listing` · `buy_item`
 
+## Stillness Integration (April 1)
+
+The Trade Post contract is designed to run as an SSU extension on the live Stillness server. Deployment flow:
+
+```
+1. authorize_trade_post(storage_unit, owner_cap)
+   → Registers TradeAuth witness on your SSU
+   → Creates shared TradePostConfig object
+
+2. create_listing(config, admin_cap, type_id, price, qty)
+   → Sets item prices and quantities
+   → Emits ListingEvent (indexed by dashboard)
+
+3. Players call buy_item(config, ssu, character, payment, type_id, qty, clock)
+   → SUI transfers to seller atomically
+   → Items withdraw from SSU → deposit to buyer
+   → Emits TradeEvent (appears in live feed)
+```
+
+The dashboard auto-indexes `TradeEvent` and `ListingEvent` emissions via `suix_queryEvents` with 15-second polling. Trade events appear in the global live feed alongside gate jumps and kills.
+
+**Hackathon categories:** Utility (real marketplace for players) · Technical Implementation (Move + React + Three.js) · Live Frontier Integration (deployed to Stillness, interacting with real players)
+
 ## Setup
 
 ```bash

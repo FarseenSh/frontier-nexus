@@ -1,11 +1,11 @@
-import { Skull, ArrowRightLeft } from "lucide-react";
+import { Skull, ArrowRightLeft, ShoppingCart } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { SuiEvent } from "../../lib/types";
 import { cn } from "../../lib/cn";
 
 interface EventItemProps {
   event: SuiEvent;
-  type: "kill" | "jump";
+  type: "kill" | "jump" | "trade";
   compact?: boolean;
   index?: number;
 }
@@ -16,11 +16,10 @@ function abbreviate(str: string, front = 6, back = 4): string {
 }
 
 export const EventItem = ({ event, type, compact, index = 0 }: EventItemProps) => {
-  const isKill = type === "kill";
-  const Icon = isKill ? Skull : ArrowRightLeft;
-  const borderColor = isKill ? "border-danger" : "border-cyan";
-  const accentColor = isKill ? "text-danger" : "text-cyan";
-  const label = isKill ? "KILL" : "GATE JUMP";
+  const Icon = type === "kill" ? Skull : type === "trade" ? ShoppingCart : ArrowRightLeft;
+  const borderColor = type === "kill" ? "border-danger" : type === "trade" ? "border-amber" : "border-cyan";
+  const accentColor = type === "kill" ? "text-danger" : type === "trade" ? "text-amber" : "text-cyan";
+  const label = type === "kill" ? "KILL" : type === "trade" ? "TRADE" : "GATE JUMP";
 
   const timestamp = formatDistanceToNow(
     new Date(Number(event.timestampMs)),

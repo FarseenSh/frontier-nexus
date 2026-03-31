@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { Radio } from "lucide-react";
-import { useKillEvents, useJumpEvents } from "../../hooks/use-sui-events";
+import { useKillEvents, useJumpEvents, useTradeEvents } from "../../hooks/use-sui-events";
 import { EventItem } from "./event-item";
 import { PulsingDot } from "./pulsing-dot";
 import { EmptyState } from "../shared/empty-state";
@@ -13,7 +13,7 @@ interface ActivityFeedProps {
 
 interface TaggedEvent {
   event: SuiEvent;
-  type: "kill" | "jump";
+  type: "kill" | "jump" | "trade";
 }
 
 export const ActivityFeed = ({
@@ -22,6 +22,7 @@ export const ActivityFeed = ({
 }: ActivityFeedProps) => {
   const { data: killEvents = [], isLoading: killsLoading } = useKillEvents();
   const { data: jumpEvents = [], isLoading: jumpsLoading } = useJumpEvents();
+  const { data: tradeEvents = [] } = useTradeEvents();
 
   // Show skeleton until all queries settle (avoids empty state flash)
   const isLoading = killsLoading || jumpsLoading;
@@ -30,6 +31,7 @@ export const ActivityFeed = ({
     const tagged: TaggedEvent[] = [
       ...killEvents.map((event) => ({ event, type: "kill" as const })),
       ...jumpEvents.map((event) => ({ event, type: "jump" as const })),
+      ...tradeEvents.map((event) => ({ event, type: "trade" as const })),
     ];
 
     tagged.sort(
@@ -37,7 +39,7 @@ export const ActivityFeed = ({
     );
 
     return tagged.slice(0, maxItems);
-  }, [killEvents, jumpEvents, maxItems]);
+  }, [killEvents, jumpEvents, tradeEvents, maxItems]);
 
   if (isLoading) {
     return (

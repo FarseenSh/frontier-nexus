@@ -31,3 +31,13 @@ export const EVENT_TYPES = {
   killmail: `${ACTIVE_ENV.worldPackage}::killmail::KillmailEvent`,
   jump: `${ACTIVE_ENV.worldPackage}::gate::JumpEvent`,
 };
+
+export const TRADE_POST = {
+  packageId: "0x1b77373ab65606a5eddfcedbdab6acaeaf0abf61c0d993d1edd3f79d8ad61254",
+  module: "trade_post",
+};
+
+export const TRADE_EVENT_TYPES = {
+  trade: `${TRADE_POST.packageId}::trade_post::TradeEvent`,
+  listing: `${TRADE_POST.packageId}::trade_post::ListingEvent`,
+};
